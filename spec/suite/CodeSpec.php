@@ -62,6 +62,23 @@ describe("Code", function() {
 
             });
 
+            it("throws timeout exceptions even on ignore mode", function() {
+
+                $start = microtime(true);
+
+                $closure = function() {
+                    Code::run(function() {
+                        while(true) sleep(1);
+                    }, 1, true);
+                };
+
+                expect($closure)->toThrow(new TimeoutException('Timeout reached, execution aborted after 1 second(s).'));
+
+                $end = microtime(true);
+                expect($end - $start)->toBeGreaterThan(1);
+
+            });
+
             it("ignores exceptions when the third parameter is true", function() {
 
                 $closure = function() {
@@ -107,6 +124,21 @@ describe("Code", function() {
 
             $closure = function() {
                 Code::spin(function() {}, 1);
+            };
+
+            expect($closure)->toThrow(new TimeoutException('Timeout reached, execution aborted after 1 second(s).'));
+
+            $end = microtime(true);
+            expect($end - $start)->toBeGreaterThan(1);
+
+        });
+
+        it("throws timeout exceptions even on ignore mode", function() {
+
+            $start = microtime(true);
+
+            $closure = function() {
+                Code::spin(function() {}, 1, true);
             };
 
             expect($closure)->toThrow(new TimeoutException('Timeout reached, execution aborted after 1 second(s).'));

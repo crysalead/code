@@ -31,6 +31,8 @@ class Code
 
         try {
             $result = $callable();
+        } catch (TimeoutException $e) {
+            throw $e;
         } catch (Exception $e) {
             if (!$ignoreException) {
                 throw $e;
