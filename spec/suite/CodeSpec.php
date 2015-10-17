@@ -62,35 +62,6 @@ describe("Code", function() {
 
             });
 
-            it("throws timeout exceptions even on ignore mode", function() {
-
-                $start = microtime(true);
-
-                $closure = function() {
-                    Code::run(function() {
-                        while(true) sleep(1);
-                    }, 1, true);
-                };
-
-                expect($closure)->toThrow(new TimeoutException('Timeout reached, execution aborted after 1 second(s).'));
-
-                $end = microtime(true);
-                expect($end - $start)->toBeGreaterThan(1);
-
-            });
-
-            it("ignores exceptions when the third parameter is true", function() {
-
-                $closure = function() {
-                    Code::run(function() {
-                        throw new Exception("Error Processing Request");
-                    }, 1, true);
-                };
-
-                expect($closure)->not->toThrow(new Exception("Error Processing Request"));
-
-            });
-
         });
 
     }
@@ -133,30 +104,21 @@ describe("Code", function() {
 
         });
 
-        it("throws timeout exceptions even on ignore mode", function() {
+        it("respects the delay delay", function() {
 
             $start = microtime(true);
 
-            $closure = function() {
-                Code::spin(function() {}, 1, true);
+            $counter = 0;
+            $closure = function() use (&$counter) {
+                Code::spin(function() use (&$counter) { $counter++; }, 1, 250000);
             };
 
             expect($closure)->toThrow(new TimeoutException('Timeout reached, execution aborted after 1 second(s).'));
+            expect($counter)->toBeGreaterThan(3);
+            expect($counter)->toBeLessThan(6);
 
             $end = microtime(true);
             expect($end - $start)->toBeGreaterThan(1);
-
-        });
-
-        it("ignores exceptions when the third parameter is true", function() {
-
-            $closure = function() {
-                Code::spin(function() {
-                    throw new Exception("Error Processing Request");
-                }, 1, true);
-            };
-
-            expect($closure)->not->toThrow(new Exception("Error Processing Request"));
 
         });
 
