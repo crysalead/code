@@ -16,7 +16,11 @@
     },
     "autoload": {
         "psr-4": {
-            "code\\": "src/",
+            "code\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "code\\spec\\": "spec/"
         }
     },
