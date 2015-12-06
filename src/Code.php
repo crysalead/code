@@ -1,5 +1,5 @@
 <?php
-namespace code;
+namespace Lead\Code;
 
 use Exception;
 use InvalidArgumentException;

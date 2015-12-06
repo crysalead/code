@@ -1,10 +1,10 @@
 <?php
-namespace code\spec\suite;
+namespace Lead\Code\Spec\Suite;
 
 use Exception;
 use InvalidArgumentException;
-use code\TimeoutException;
-use code\Code;
+use Lead\Code\TimeoutException;
+use Lead\Code\Code;
 
 describe("Code", function() {
 
